@@ -4,14 +4,12 @@ import torch
 class Model(torch.nn.Module):
     def __init__(
         self,
-        input_size: int = None,
-        output_size: int = None,
+        weights: torch.Tensor,
+        bias: torch.Tensor,
     ):
         super().__init__()
-        self.input_size = input_size
-
-        self.linear = torch.nn.Linear(
-            in_features=input_size, out_features=output_size)
+        self.weights = torch.nn.Parameter(weights)
+        self.bias = torch.nn.Parameter(bias)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        return self.linear(x)
+        return torch.matmul(x, self.weights) + self.bias
